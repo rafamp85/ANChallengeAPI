@@ -9,6 +9,9 @@ const { dbConnection } = require('./database/config');
 // Create the server
 const app = express();
 
+// Public Dir
+app.use( express.static('public') );
+
 // Configure CORS
 app.use( cors() );
 // Parse Body
@@ -18,8 +21,10 @@ app.use( express.json() );
 dbConnection();
 
 // Routes
-app.use( '/api/users', require('./routes/users') );
 app.use( '/api/login', require('./routes/auth') );
+app.use( '/api/users', require('./routes/users') );
+app.use( '/api/accounts', require('./routes/accounts') );
+
 
 app.listen( process.env.PORT, () => {
     console.log('Server running in port', 5200);

@@ -31,13 +31,15 @@ const login = async( req, res = response ) => {
         }
 
         // Create Token
-        const token = await generateJWT( dbUser.id, dbUser.role );
+        const token = await generateJWT( dbUser.id, dbUser.role, dbUser.name );
 
         res.json({
             ok: true,
-            token
+            token,
+            id: dbUser.id,
+            name: dbUser.name
         });
-        
+
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -47,6 +49,23 @@ const login = async( req, res = response ) => {
     }
 }
 
+const validateToken = async( req, res = response ) => {
+
+  const { id, name, role } = req;
+
+  // Create Token
+  const token = await generateJWT( id, role, name );
+
+  return res.json({
+    ok: true,
+    id,
+    name,
+    role,
+    token
+  });
+}
+
 module.exports = {
-    login
+    login,
+    validateToken
 }
