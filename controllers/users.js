@@ -74,7 +74,7 @@ const updateUser = async( req, res = response ) => {
             });
         }
 
-        const {password, email, ...fields} = req.body;
+        const {email, ...fields} = req.body;
 
         if ( dbUser.email !== email ) {
             const emailExists = await User.findOne({email});
@@ -86,7 +86,12 @@ const updateUser = async( req, res = response ) => {
             }
         }
 
+        // Cipher password
+        const salt = bcrypt.genSaltSync();
+        fields.password = bcrypt.hashSync( fields.password, salt );
+
         fields.email = email;
+        console.log(fields);
         const updatedUser = await User.findByIdAndUpdate( id, fields, { new: true } );
 
         res.json({

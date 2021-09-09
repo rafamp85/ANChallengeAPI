@@ -14,10 +14,11 @@ const validateJWT = ( req, res = response, next ) => {
 
     try {
 
-        const { id, name, role } = jwt.verify( token, process.env.JWT_SECRET );
+        const { id, name, role, email } = jwt.verify( token, process.env.JWT_SECRET );
         req.id = id;
         req.name = name;
         req.role = role;
+        req.email = email;
 
         next();
 
