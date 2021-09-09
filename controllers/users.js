@@ -43,13 +43,13 @@ const createUser = async( req, res = response ) => {
 
         // Create Token
         const token = await generateJWT( user.id, user.role );
-    
+
         res.json({
             ok: true,
             user,
             token
         });
-        
+
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -74,7 +74,7 @@ const updateUser = async( req, res = response ) => {
             });
         }
 
-        const {password, role, email, ...fields} = req.body;
+        const {password, email, ...fields} = req.body;
 
         if ( dbUser.email !== email ) {
             const emailExists = await User.findOne({email});
@@ -88,7 +88,7 @@ const updateUser = async( req, res = response ) => {
 
         fields.email = email;
         const updatedUser = await User.findByIdAndUpdate( id, fields, { new: true } );
-        
+
         res.json({
             ok: true,
             user: updatedUser
@@ -134,7 +134,7 @@ const deleteUser = async(req, res = response ) => {
 }
 
 
-module.exports = { 
+module.exports = {
     getUsers,
     createUser,
     updateUser,

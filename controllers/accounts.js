@@ -5,7 +5,7 @@ const Account = require('../models/account');
 
 const getAccounts = async(req, res) => {
 
-    const accounts = await Account.find({}, 'accountName client accountManager');
+    const accounts = await Account.find({}, 'accountName client accountManager consult');
 
     res.json({
         ok: true,
