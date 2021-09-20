@@ -7,7 +7,7 @@ const { generateJWT } = require('../shared/jwt');
 
 const getUsers = async(req, res) => {
 
-    const users = await User.find({}, 'name email role');
+    const users = await User.find({}, 'name email role abilities');
 
     res.json({
         ok: true,
@@ -86,12 +86,15 @@ const updateUser = async( req, res = response ) => {
             }
         }
 
-        // Cipher password
-        const salt = bcrypt.genSaltSync();
-        fields.password = bcrypt.hashSync( fields.password, salt );
+        if( !fields.password ) {
+          fields.password = dbUser.password;
+        } else {
+          // Cipher password
+          const salt = bcrypt.genSaltSync();
+          fields.password = bcrypt.hashSync( fields.password, salt );
+        }
 
         fields.email = email;
-        console.log(fields);
         const updatedUser = await User.findByIdAndUpdate( id, fields, { new: true } );
 
         res.json({

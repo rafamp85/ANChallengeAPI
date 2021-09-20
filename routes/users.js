@@ -13,24 +13,24 @@ const router = Router();
 
 router.get( '/', validateJWT, getUsers );
 
-router.post( '/', 
+router.post( '/',
     [
         check('name', 'Name is required').not().isEmpty(),
         check('password', 'Password is required').not().isEmpty(),
         check('email', 'Email is required').isEmail(),
         validateFields
-    ], 
-    createUser 
+    ],
+    createUser
 );
 
-router.put( '/:id', 
+router.put( '/:id',
     [
         validateJWT,
         check('name', 'Name is required').not().isEmpty(),
         check('email', 'Email is required').isEmail(),
         validateFields
-    ], 
-    updateUser 
+    ],
+    updateUser
 );
 
 router.delete( '/:id', validateJWT, deleteUser );

@@ -18,6 +18,17 @@ const UserSchema = Schema({
         type: String,
         required: true,
         default: 'USER_ROLE'
+    },
+    abilities: {
+      englishLevel: {
+        type: String,
+        required: true,
+        default: '0'
+      },
+      techKnowledge: {
+        type: Array,
+        required: true,
+      }
     }
 });
 
