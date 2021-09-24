@@ -16,6 +16,34 @@ const getUsers = async(req, res) => {
     });
 }
 
+const getUserById = async(req, res) => {
+
+    const id = req.params.id;
+
+    try {
+        const user = await User.findById( id );
+
+        if( !user ) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'This user not exists'
+            });
+        }
+
+        res.json({
+            ok: true,
+            user,
+        });
+
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+          ok: false,
+          msg: 'Error Getting User'
+      });
+    }
+}
+
 const createUser = async( req, res = response ) => {
 
     const { password, email } = req.body;
@@ -144,6 +172,7 @@ const deleteUser = async(req, res = response ) => {
 
 module.exports = {
     getUsers,
+    getUserById,
     createUser,
     updateUser,
     deleteUser
