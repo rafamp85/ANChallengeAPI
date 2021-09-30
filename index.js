@@ -4,6 +4,9 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
+var swaggerUi = require('swagger-ui-express'),
+    swaggerDocument = require('./swagger.json');
+
 const { dbConnection } = require('./database/config');
 
 // Create the server
@@ -21,6 +24,7 @@ app.use( express.json() );
 dbConnection();
 
 // Routes
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use( '/api/login', require('./routes/auth') );
 app.use( '/api/users', require('./routes/users') );
 app.use( '/api/accounts', require('./routes/accounts') );
